@@ -1,0 +1,59 @@
+import math
+
+
+
+class Car:
+    def __init__(self, x, y, direction):
+        self.x = x
+        self.y = y
+        self.direction = direction
+        self.distance = 0
+
+
+    def rotate(self, angle):
+        self.direction += angle
+        self.direction = self.direction % 360
+
+    def move(self, distance):
+        direction_rad = math.radians(self.direction)
+        self.x += distance * math.cos(direction_rad)
+        self.y += distance * math.sin(direction_rad)
+
+    def __str__(self):
+        lines = f'Транспортное средство находится в координатах:'
+        f'x : {round(self.x, 2)}'
+        f'y : {round(self.y, 2)}'
+        f'направление : {round(self.direction, 2)}'
+        f'пройденное расстояние : {round(self.distance, 2)}'
+        return ('\n').join(lines)
+
+
+class Bus(Car):
+    def __init__(self, x, y, direction):
+        super().__init__(x, y, direction)
+        self.passengers = 0
+        self.money = 0
+
+    def move(self,distance):
+        self.money += 0.01 * self.passengers * distance
+        super().move(distance)
+
+    def enter(self, passengers):
+        if passengers + self.passengers > 60:
+            print('Достигнута максимальная вместимость автобуса'
+                  'Уехать смогли только {:d}'.format(60 - self.passengers),
+                  'Остались {:d}'.format(passengers - (60 - self.passengers)))
+            passengers = 60 - passengers
+        return passengers
+
+    def exit(self, passengers):
+        if passengers > self.passengers:
+            print('Все вышли из автобуса')
+            passengers = self.passengers
+        return passengers
+
+    def __str__(self):
+        lines = [super().__str__(),
+            f'В автобусе {self.passengers} пассажиров',
+            f'У водителя {round(self.money, 2)} денег',]
+        return ('\n').join(lines)
