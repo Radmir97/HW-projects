@@ -1,0 +1,17 @@
+def fib(n):
+    if n == 0 or n == 1:
+        return n
+    else:
+        return fib(n - 2) + fib(n - 1)
+
+
+print(fib(9))
+
+def factorial(num):
+    if num == 1:
+        return num
+    fact_n_min = factorial(num - 1)
+    return num * fact_n_min
+
+num_fact = factorial(5)
+print(num_fact)
